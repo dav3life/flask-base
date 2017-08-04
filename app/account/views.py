@@ -6,7 +6,7 @@ from flask_rq import get_queue
 from . import account
 from .. import db
 from ..email import send_email
-from ..models import User
+from ..models import User, Project
 from .forms import (ChangeEmailForm, ChangePasswordForm, CreatePasswordForm,
                     LoginForm, RegistrationForm, RequestResetPasswordForm,
                     ResetPasswordForm)
@@ -271,3 +271,12 @@ def unconfirmed():
     if current_user.is_anonymous or current_user.confirmed:
         return redirect(url_for('main.index'))
     return render_template('account/unconfirmed.html')
+
+
+@account.route('/projects')
+@login_required
+def registered_projects():
+    """View all registered project."""
+    projects = Project.query.all()
+    return render_template(
+        'account/projects.html', projects=projects)

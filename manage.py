@@ -9,7 +9,7 @@ from redis import Redis
 from rq import Connection, Queue, Worker
 
 from app import create_app, db
-from app.models import Role, User
+from app.models import Role, User, Project
 
 
 app = create_app(os.getenv('FLASK_CONFIG') or 'default')
@@ -18,7 +18,7 @@ migrate = Migrate(app, db)
 
 
 def make_shell_context():
-    return dict(app=app, db=db, User=User, Role=Role)
+    return dict(app=app, db=db, User=User, Role=Role, Project=Project)
 
 
 manager.add_command('shell', Shell(make_context=make_shell_context))
